@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --color-space: #0c1017;
+  --color-panel: #141b25;
+  --color-raised: #1c2633;
+  --color-line: #344153;
+  --color-ink: #edf2f8;
+  --color-muted: #a9b8cc;
+  --color-accent: #eed09a;
+  --color-solar: #ffd17b;
+  --color-earth: #91c8ff;
+  --color-visible: #94e1bd;
+  --color-blocked: #ffb0a5;
+  --color-unknown: #c9bddf;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  #root { width: 100%; max-width: 100%; min-width: 0; }
+  h1, h2, h3, p, dd { overflow-wrap: anywhere; }
+  body { @apply m-0 min-w-0 w-full bg-space font-sans text-ink antialiased; color-scheme: dark; }
+  button, select, input { @apply font-[inherit]; }
+  button, select, summary { @apply cursor-pointer; }
+  button:disabled { @apply cursor-not-allowed; }
+  :focus-visible { @apply outline-2 outline-offset-4 outline-accent; }
+  ::selection { @apply bg-accent text-space; }
+}
+
+/* SVG styles stay here because chart geometry is supplied by data. */
+.horizon-chart text { font-family: var(--font-mono); font-size: 13px; fill: var(--color-muted); }
+.horizon-chart .chart-grid { stroke: var(--color-line); }
+.horizon-chart .chart-zero { stroke: var(--color-muted); }
+.horizon-chart .chart-terrain { stroke: var(--color-accent); }
+.horizon-chart .chart-point { fill: var(--color-accent); }
+
+.clearance-chart text { font-family: var(--font-mono); font-size: 13px; fill: var(--color-muted); }
+.clearance-chart .chart-grid { stroke: var(--color-line); }
+.clearance-chart .chart-zero { stroke: var(--color-muted); }
+.clearance-chart .chart-sun { stroke: var(--color-solar); fill: var(--color-solar); }
+.clearance-chart .chart-earth { stroke: var(--color-earth); fill: var(--color-earth); }
+.clearance-chart .chart-cursor { stroke: var(--color-accent); }
+
+/* Keep the polar canvas and its card inside one viewport-height map stage. */
+.map-stage { padding: 12px; }
+.map-canvas { min-width: 0; max-width: 100%; width: min(100%, 62vh); margin: 0 auto; }
+.map-detail { min-width: 0; max-width: 100%; margin-top: 12px; }
+@media (min-width: 1024px) {
+  .map-stage { display: grid; grid-template-columns: minmax(0, 1fr) 272px; align-items: center; gap: 12px; height: min(70dvh, 720px); }
+  .map-canvas { min-width: 0; max-width: 100%; width: min(100%, calc(70dvh - 24px), 696px); }
+  .map-detail { margin: 0; max-height: 100%; overflow-y: auto; }
+}
